@@ -25,10 +25,11 @@ const (
 func GetShopProducts(cfg *config.Config, authorUrlSlug string, cookieString string, tagId string, quickUpdate bool) error {
 	authorHost, _ := url.JoinPath(cfg.HostUrl, "a", authorUrlSlug, "?tab=shop")
 	//创建存储文件夹
-	saveDir := path.Join(cfg.DataDir, authorUrlSlug, shopDir)
-	if tagId != "" {
-		saveDir = path.Join(saveDir, tagId)
+	subDir := tagId
+	if subDir == "" {
+		subDir = "default"
 	}
+	saveDir := path.Join(cfg.DataDir, authorUrlSlug, shopDir, subDir)
 
 	if err := os.MkdirAll(saveDir, os.ModePerm); err != nil {
 		return fmt.Errorf("create shop dir error: %v", err)

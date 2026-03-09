@@ -233,6 +233,8 @@ func GetProductList(cfg *config.Config, userName string, cookieString string, ta
 
 		respData := gjson.GetBytes(body, "data")
 		list := respData.Get("list").Array()
+		hasMore := respData.Get("has_more").Int()
+		slog.Debug("GetProductList", "page", page, "has_more", hasMore, "count", len(list))
 
 		if len(list) == 0 {
 			break
